@@ -21,8 +21,12 @@ public class Branch implements Serializable {
     private String personName;
     private String fantasyName;
 
-    private BranchCountry country;
-    private BranchState state;
-    private BranchCity city;
+    @Builder.Default
+    private BranchCountry country = new BranchCountry();
+    @Builder.Default
+    private BranchState state = new BranchState();
+    @Builder.Default
+    private BranchCity city = new BranchCity();
+    private Boolean active;
 
 }
