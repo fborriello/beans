@@ -49,4 +49,27 @@ public class BeanTransformationConfig {
                 .withFieldMapping(new FieldMapping("active", "active"));
     }
 
+    @Bean
+    public BeanTransformer oracleBranchTransformer(final BeanUtils beanUtils) {
+        return beanUtils.getTransformer()
+                .setDefaultValueForMissingField(true)
+                .skipTransformationForField("country")
+                .skipTransformationForField("state")
+                .skipTransformationForField("city")
+                .setDefaultValueSetEnabled(true)
+                .withFieldMapping(new FieldMapping("branchCode", "code"))
+                .withFieldMapping(new FieldMapping("branchName", "name"))
+                .withFieldMapping(new FieldMapping("personCode", "personCode"))
+                .withFieldMapping(new FieldMapping("personName", "personName"))
+                .withFieldMapping(new FieldMapping("fantasyName", "fantasyName"))
+                .withFieldMapping(new FieldMapping("country.code", "countryCode"))
+                .withFieldMapping(new FieldMapping("country.name","countryName" ))
+                .withFieldMapping(new FieldMapping("state.code", "stateCode"))
+                .withFieldMapping(new FieldMapping("state.name", "stateName"))
+                .withFieldMapping(new FieldMapping("state,region", "stateRegion"))
+                .withFieldMapping(new FieldMapping("city.code", "cityCode"))
+                .withFieldMapping(new FieldMapping("city.name", "cityName"))
+                .withFieldMapping(new FieldMapping("active", "active"));
+    }
+
 }

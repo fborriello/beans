@@ -1,6 +1,7 @@
 package com.example.beans.config;
 
 import com.example.beans.model.Branch;
+import com.example.beans.model.BranchCountry;
 import com.example.beans.model.OracleBranch;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,5 +26,16 @@ public class BeanTransformationConfigTest {
 
         assertThat(result.getCountry().getCode()).isEqualTo("BR");
         assertThat(result.getCountry().getName()).isEqualTo("Brasil");
+    }
+
+    @Test
+    public void oracleBranchTransformer() {
+        final Branch branch = Branch.builder().country(BranchCountry.builder().code("BR").name("Brasil").build()).build();
+
+        final OracleBranch result = beanTransformationConfig.oracleBranchTransformer(this.beanTransformationConfig.beanUtils())
+                .transform(branch, OracleBranch.class);
+
+        assertThat(result.getCountryCode()).isEqualTo("BR");
+        assertThat(result.getCountryName()).isEqualTo("Brasil");
     }
 }
