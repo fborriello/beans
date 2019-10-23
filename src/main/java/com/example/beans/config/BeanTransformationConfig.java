@@ -70,7 +70,7 @@ public class BeanTransformationConfig {
                 .withFieldMapping(new FieldMapping("country.name","countryName" ))
                 .withFieldMapping(new FieldMapping("state.code", "stateCode"))
                 .withFieldMapping(new FieldMapping("state.name", "stateName"))
-                .withFieldMapping(new FieldMapping("state,region", "stateRegion"))
+                .withFieldMapping(new FieldMapping("state.region", "stateRegion"))
                 .withFieldMapping(new FieldMapping("city.code", "cityCode"))
                 .withFieldMapping(new FieldMapping("city.name", "cityName"))
                 .withFieldMapping(new FieldMapping("active", "active"));
