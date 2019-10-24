@@ -2,33 +2,36 @@ package com.example.beans.model.transformer;
 
 
 import com.example.beans.model.*;
+import com.hotels.beans.transformer.BeanTransformer;
+import com.hotels.transformer.model.FieldTransformer;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BranchTransformer {
 
+    @Autowired
+    BeanTransformer branchTransformer;
+
+    @Autowired
+    BeanTransformer countryTransformer;
+
+    @Autowired
+    BeanTransformer cityTransformer;
+
+    @Autowired
+    BeanTransformer stateTransformer;
+
     public Branch transform(final OracleBranch oracleBranch) {
-        return Branch.builder()
-                .code(oracleBranch.getBranchCode())
-                .name(oracleBranch.getBranchName())
-                .personCode(oracleBranch.getPersonCode())
-                .personName(oracleBranch.getPersonName())
-                .country(BranchCountry.builder()
-                        .code(oracleBranch.getCountryCode())
-                        .name(oracleBranch.getCountryName())
-                        .build())
-                .state(BranchState
-                        .builder()
-                        .code(oracleBranch.getStateCode())
-                        .name(oracleBranch.getStateCode())
-                        .region(oracleBranch.getStateRegion())
-                        .build())
-                .city(BranchCity.builder()
-                        .code(oracleBranch.getCityCode())
-                        .name(oracleBranch.getCityName())
-                        .build())
-                .fantasyName(oracleBranch.getFantasyName())
-                .active("I".equalsIgnoreCase(oracleBranch.getActive()))
-                .build();
+        final FieldTransformer<OracleBranch, BranchCountry> countryFieldTransformer =
+                new FieldTransformer<>("country", () -> countryTransformer.transform(oracleBranch, BranchCountry.class));
+        final FieldTransformer<OracleBranch, BranchState> stateFieldTransformer =
+                new FieldTransformer<>("state", () -> cityTransformer.transform(oracleBranch, BranchState.class));
+        final FieldTransformer<OracleBranch, BranchCity> cityFieldTransformer =
+                new FieldTransformer<>("city", () -> cityTransformer.transform(oracleBranch, BranchCity.class));
+        return branchTransformer
+                .withFieldTransformer(countryFieldTransformer, stateFieldTransformer, cityFieldTransformer)
+                .transform(oracleBranch, Branch.class);
     }
 }
